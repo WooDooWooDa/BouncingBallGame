@@ -19,7 +19,7 @@ public class GameWindow extends JFrame {
     private final int speed = 2;
     private int x;
     private int y;
-    private int dx;     //vitesses
+    private int dx;
     private int dy;
     private int score = 0;
 
