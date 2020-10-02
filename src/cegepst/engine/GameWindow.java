@@ -16,7 +16,7 @@ public class GameWindow extends JFrame {
     private boolean playing = true;
 
     private final int radius = 25;
-    private final int speed = 2;
+    private final int speed = 5;
     private int x;
     private int y;
     private int dx;
@@ -40,8 +40,8 @@ public class GameWindow extends JFrame {
         panel.setDoubleBuffered(true);
         add(panel);
 
-        x = getRandom(0 + (radius * 2), windowWidth - (radius * 2));
-        y = getRandom(0 + (radius * 2), windowHeight - (radius * 2));
+        x = getRandom((radius * 2), windowWidth - (radius * 2));
+        y = getRandom((radius * 2), windowHeight - (radius * 2));
         dx = getRandom(0, 1) == 0 ? speed : -(speed);
         dy = getRandom(0, 1) == 0 ? speed : -(speed);
     }
@@ -77,11 +77,11 @@ public class GameWindow extends JFrame {
         x += dx;
         y += dy;
 
-        if(y <= radius || y >= windowHeight - radius) {
+        if(y <= radius / 2 || y >= windowHeight - radius * 2) {
             dy *= -1;
             score += 10;
         }
-        if(x <= radius || x >= windowWidth - radius) {
+        if(x <= radius / 2 || x >= windowWidth - radius * 2) {
             dx *= -1;
             score += 10;
         }
