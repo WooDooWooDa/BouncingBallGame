@@ -1,5 +1,6 @@
 package cegepst;
 
+import java.awt.*;
 import java.util.Random;
 
 public class Ball {
@@ -29,6 +30,11 @@ public class Ball {
 
     public int getRadius() {
         return radius;
+    }
+
+    public void draw(Graphics2D buffer, Paint color) {
+        buffer.setPaint(color);
+        buffer.fillOval(x, y, radius * 2, radius * 2);
     }
 
     public void update() {
