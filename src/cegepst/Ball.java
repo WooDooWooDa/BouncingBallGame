@@ -21,7 +21,9 @@ public class Ball {
     }
 
     public void draw(Graphics2D buffer, Paint color) {
-        buffer.setPaint(color);
+        Random rand = new Random();
+        Color randomColor = new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
+        buffer.setPaint(randomColor);
         buffer.fillOval(x, y, radius * 2, radius * 2);
     }
 
@@ -41,11 +43,11 @@ public class Ball {
     }
 
     private boolean hasTouchHorizontalBound() {
-        return x <= radius || x >= 800 - radius;
+        return x <= 0 || x >= 800 - radius;
     }
 
     private boolean hasTouchVerticalBound() {
-        return y <= radius || y >= 600 - radius;
+        return y <= 0 || y >= 600 - radius;
     }
 
     private int getRandom(int min, int max) {
