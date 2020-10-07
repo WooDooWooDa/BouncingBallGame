@@ -1,5 +1,7 @@
 package cegepst.engine;
 
+import cegepst.Ball;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,12 +17,8 @@ public class GameWindow extends JFrame {
     private final int windowHeight = 600;
     private boolean playing = true;
 
-    private final int radius = 25;
-    private final int speed = 2;
-    private int x;
-    private int y;
-    private int dx;
-    private int dy;
+    private Ball smallBall;
+    private Ball bigBall;
     private int score = 0;
 
     private BufferedImage bufferedImage;
@@ -40,10 +38,8 @@ public class GameWindow extends JFrame {
         panel.setDoubleBuffered(true);
         add(panel);
 
-        x = getRandom(0 + (radius * 2), windowWidth - (radius * 2));
-        y = getRandom(0 + (radius * 2), windowHeight - (radius * 2));
-        dx = getRandom(0, 1) == 0 ? speed : -(speed);
-        dy = getRandom(0, 1) == 0 ? speed : -(speed);
+        smallBall = new Ball(20, 4);
+        bigBall = new Ball(50, 2);
     }
 
     public void start() {
@@ -74,23 +70,21 @@ public class GameWindow extends JFrame {
     }
 
     private void update() {
-        x += dx;
-        y += dy;
-
-        if(y <= radius || y >= windowHeight - radius) {
-            dy *= -1;
-            score += 10;
+        smallBall.update();
+        bigBall.update();
+        if (smallBall.hasTouchBound()) {
+            score += 20;
         }
-        if(x <= radius || x >= windowWidth - radius) {
-            dx *= -1;
+        if (bigBall.hasTouchBound()) {
             score += 10;
         }
     }
 
     private void drawOnBuffer() {
         buffer.setPaint(Color.RED);
-        buffer.fillOval(x, y, radius * 2, radius * 2);
-
+        buffer.fillOval(smallBall.getX(), smallBall.getY(), smallBall.getRadius() * 2, smallBall.getRadius() * 2);
+        buffer.setPaint(Color.BLUE);
+        buffer.fillOval(bigBall.getX(), bigBall.getY(), bigBall.getRadius() * 2, bigBall.getRadius() * 2);
         buffer.setPaint(Color.WHITE);
         buffer.drawString("score : " + score, 10, 20);
     }
@@ -100,10 +94,5 @@ public class GameWindow extends JFrame {
         graphics2D.drawImage(bufferedImage, 0,0, panel);
         Toolkit.getDefaultToolkit().sync();
         graphics2D.dispose();
-    }
-
-    private int getRandom(int min, int max) {
-        Random random = new Random();
-        return random.nextInt((max - min) + 1) + min;
     }
 }
