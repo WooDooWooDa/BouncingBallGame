@@ -11,8 +11,8 @@ public class GameWindow {
     private static final int SLEEP = 20;
     private long before;
 
-    private final JFrame frame;
-    private final JPanel panel;
+    private JFrame frame;
+    private JPanel panel;
     private final int windowWidth = 800;
     private final int windowHeight = 600;
 
@@ -25,19 +25,8 @@ public class GameWindow {
     private Graphics2D buffer;
 
     public GameWindow() {
-        frame = new JFrame();
-        frame.setSize(windowWidth, windowHeight);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);    //empeche la redimension
-        frame.setTitle("Bouncing Ball Game");     // titre de la window
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);     //programme le bouton X pour quitter le programme
-        //setUndecorated(true); enleve la bar en haut
-
-        panel = new JPanel();
-        panel.setBackground(Color.BLUE);
-        panel.setFocusable(true);
-        panel.setDoubleBuffered(true);
-        frame.add(panel);
+        initializeFrame();
+        initializePanel();
 
         smallBall = new Ball(20, 4);
         bigBall = new Ball(50, 2);
@@ -45,28 +34,16 @@ public class GameWindow {
 
     public void start() {
         frame.setVisible(true);   //affichage de la fenetre
-        before = System.currentTimeMillis();
+        updateSyncTime();
         while (playing) {
             bufferedImage = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_RGB);
             buffer = bufferedImage.createGraphics();
-            RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-            buffer.setRenderingHints(rh);
+            buffer.setRenderingHints(getRenderingHints());
 
             update();
             drawOnBuffer();
             drawOnScreen();
-
-            long sleep = SLEEP - (System.currentTimeMillis() - before);
-            if (sleep < 0) {
-                sleep = 4;
-            }
-            try {
-                Thread.sleep(sleep);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            before = System.currentTimeMillis();
+            sleep();
         }
     }
 
@@ -94,5 +71,50 @@ public class GameWindow {
         graphics2D.drawImage(bufferedImage, 0,0, panel);
         Toolkit.getDefaultToolkit().sync();
         graphics2D.dispose();
+    }
+
+    private void sleep() {
+        try {
+            Thread.sleep(getSleepTime());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        updateSyncTime();
+    }
+
+    private long getSleepTime() {
+        long sleep = SLEEP - (System.currentTimeMillis() - before);
+        if (sleep < 0) {
+            sleep = 4;
+        }
+        return sleep;
+    }
+
+    private void updateSyncTime() {
+        before = System.currentTimeMillis();
+    }
+
+    private RenderingHints getRenderingHints() {
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        return rh;
+    }
+
+    private void initializeFrame() {
+        frame = new JFrame();
+        frame.setSize(windowWidth, windowHeight);
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);    //empeche la redimension
+        frame.setTitle("Bouncing Ball Game");     // titre de la window
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);     //programme le bouton X pour quitter le programme
+        //setUndecorated(true); enleve la bar en haut
+    }
+
+    private void initializePanel() {
+        panel = new JPanel();
+        panel.setBackground(Color.BLUE);
+        panel.setFocusable(true);
+        panel.setDoubleBuffered(true);
+        frame.add(panel);
     }
 }
