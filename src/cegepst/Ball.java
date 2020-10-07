@@ -20,18 +20,6 @@ public class Ball {
         velocityY = getRandom(0, 1) == 0 ? speed : -(speed);
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getRadius() {
-        return radius;
-    }
-
     public void draw(Graphics2D buffer, Paint color) {
         buffer.setPaint(color);
         buffer.fillOval(x, y, radius * 2, radius * 2);
