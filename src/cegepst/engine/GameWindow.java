@@ -6,16 +6,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class GameWindow extends JFrame {
+public class GameWindow {
 
     private static final int SLEEP = 20;
     private long before;
 
+    private final JFrame frame;
     private final JPanel panel;
     private final int windowWidth = 800;
     private final int windowHeight = 600;
-    private boolean playing = true;
 
+    private boolean playing = true;
     private Ball smallBall;
     private Ball bigBall;
     private int score = 0;
@@ -24,25 +25,26 @@ public class GameWindow extends JFrame {
     private Graphics2D buffer;
 
     public GameWindow() {
-        setSize(windowWidth, windowHeight);
-        setLocationRelativeTo(null);
-        setResizable(false);    //empeche la redimension
-        setTitle("Bouncing Ball Game");     // titre de la window
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);     //programme le bouton X pour quitter le programme
+        frame = new JFrame();
+        frame.setSize(windowWidth, windowHeight);
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);    //empeche la redimension
+        frame.setTitle("Bouncing Ball Game");     // titre de la window
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);     //programme le bouton X pour quitter le programme
         //setUndecorated(true); enleve la bar en haut
 
         panel = new JPanel();
         panel.setBackground(Color.BLUE);
         panel.setFocusable(true);
         panel.setDoubleBuffered(true);
-        add(panel);
+        frame.add(panel);
 
         smallBall = new Ball(20, 4);
         bigBall = new Ball(50, 2);
     }
 
     public void start() {
-        setVisible(true);   //affichage de la fenetre
+        frame.setVisible(true);   //affichage de la fenetre
         before = System.currentTimeMillis();
         while (playing) {
             bufferedImage = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_RGB);
@@ -81,7 +83,6 @@ public class GameWindow extends JFrame {
 
     private void drawOnBuffer() {
         smallBall.draw(buffer, Color.RED);
-
         bigBall.draw(buffer, Color.BLUE);
 
         buffer.setPaint(Color.WHITE);
