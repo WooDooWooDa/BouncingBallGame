@@ -21,9 +21,7 @@ public class Ball {
     }
 
     public void draw(Graphics2D buffer, Paint color) {
-        Random rand = new Random();
-        Color randomColor = new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
-        buffer.setPaint(randomColor);
+        buffer.setPaint(color);
         buffer.fillOval(x, y, radius * 2, radius * 2);
     }
 

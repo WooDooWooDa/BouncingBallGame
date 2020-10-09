@@ -45,7 +45,7 @@ public class RenderingEngine {
         frame.setSize(windowWidth, windowHeight);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);    //empeche la redimension
-        frame.setTitle("Bouncing Ball Game");     // titre de la window
+        frame.setTitle("Bouncing Ball Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);     //programme le bouton X pour quitter le programme
         //setUndecorated(true); enleve la bar en haut
     }
