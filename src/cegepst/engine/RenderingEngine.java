@@ -26,11 +26,11 @@ public class RenderingEngine {
         frame.dispose();
     }
 
-    public Graphics2D getRenderingBuffer() {
+    public Buffer getRenderingBuffer() {
         bufferedImage = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = bufferedImage.createGraphics();
         graphics.setRenderingHints(getRenderingHints());
-        return graphics;
+        return new Buffer(graphics);
     }
 
     public void renderBufferOnScreen() {

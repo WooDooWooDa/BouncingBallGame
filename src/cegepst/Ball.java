@@ -1,5 +1,7 @@
 package cegepst;
 
+import cegepst.engine.Buffer;
+
 import java.awt.*;
 import java.util.Random;
 
@@ -20,9 +22,8 @@ public class Ball {
         velocityY = getRandom(0, 1) == 0 ? speed : -(speed);
     }
 
-    public void draw(Graphics2D buffer, Paint color) {
-        buffer.setPaint(color);
-        buffer.fillOval(x, y, radius * 2, radius * 2);
+    public void draw(Buffer buffer, Paint color) {
+        buffer.drawCircle(x, y, radius, color);
     }
 
     public void update() {

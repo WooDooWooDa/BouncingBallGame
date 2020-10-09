@@ -38,12 +38,11 @@ public class BouncingBallGame extends Game {
     }
 
     @Override
-    public void draw(Graphics2D buffer) {
+    public void draw(Buffer buffer) {
         bigBall.draw(buffer, Color.BLUE);
         smallBall.draw(buffer, Color.GREEN);
 
-        buffer.setPaint(Color.WHITE);
-        buffer.drawString("score : " + score, 10, 20);
+        buffer.drawText("score : " + score, 10, 20, Color.white);
     }
 
 }
