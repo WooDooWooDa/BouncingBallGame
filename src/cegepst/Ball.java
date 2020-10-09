@@ -12,17 +12,18 @@ public class Ball {
     private int y;
     private int velocityX;
     private int velocityY;
+    private final Paint color;
 
     public Ball(int radius, int speed) {
         this.radius = radius;
-
+        color = randomColor();
         x = getRandom(0 + (radius * 2), 800 - (radius * 2));
         y = getRandom(0 + (radius * 2), 600 - (radius * 2));
         velocityX = getRandom(0, 1) == 0 ? speed : -(speed);
         velocityY = getRandom(0, 1) == 0 ? speed : -(speed);
     }
 
-    public void draw(Buffer buffer, Paint color) {
+    public void draw(Buffer buffer) {
         buffer.drawCircle(x, y, radius, color);
     }
 
@@ -52,5 +53,10 @@ public class Ball {
     private int getRandom(int min, int max) {
         Random random = new Random();
         return random.nextInt((max - min) + 1) + min;
+    }
+
+    private Paint randomColor() {
+        Random random = new Random();
+        return (new Color(random.nextInt(200) + 50, random.nextInt(200) + 50, random.nextInt(200) + 50));
     }
 }

@@ -3,16 +3,18 @@ package cegepst.engine;
 import cegepst.Ball;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class BouncingBallGame extends Game {
 
-    private final Ball smallBall;
-    private final Ball bigBall;
+    private ArrayList<Ball> balls;
     private int score = 0;
+    private int newBallThreshold = 0;
 
     public BouncingBallGame() {
-        smallBall = new Ball(20, 5);
-        bigBall = new Ball(50, 2);
+        balls = new ArrayList<>();
+        balls.add(new Ball(20, 5));
     }
 
     @Override
@@ -27,24 +29,31 @@ public class BouncingBallGame extends Game {
 
     @Override
     public void update() {
-        smallBall.update();
-        bigBall.update();
-        if (smallBall.hasTouchBound()) {
-            score += 20;
+        for (int i = 0; i < balls.size(); i++) {
+            Ball ball = balls.get(i);
+            ball.update();
+            if (ball.hasTouchBound()) {
+                score += 15;
+                newBallThreshold += 15;
+            }
         }
-        if (bigBall.hasTouchBound()) {
-            score += 10;
+        if (newBallThreshold > 200) {
+            Random rand = new Random();
+            balls.add(new Ball(rand.nextInt(20) + 10, rand.nextInt(5) + 1));
+            newBallThreshold = 0;
         }
     }
 
     @Override
     public void draw(Buffer buffer) {
-        bigBall.draw(buffer, Color.RED);
-        smallBall.draw(buffer, Color.GREEN);
+        for (int i = 0; i < balls.size(); i++) {
+            balls.get(i).draw(buffer);
+        }
 
         buffer.drawText("score : " + score, 10, 20, Color.white);
         buffer.drawText("FPS : " + GameTime.getCurrentFps(), 10, 40, Color.white);
         buffer.drawText(GameTime.getElapsedFormattedTime(), 10, 60, Color.white);
+        buffer.drawText("Balls : " + balls.size(), 10, 80, Color.white);
     }
 
 }
