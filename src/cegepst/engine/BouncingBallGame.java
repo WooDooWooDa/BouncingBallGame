@@ -11,7 +11,7 @@ public class BouncingBallGame extends Game {
     private int score = 0;
 
     public BouncingBallGame() {
-        smallBall = new Ball(20, 4);
+        smallBall = new Ball(20, 5);
         bigBall = new Ball(50, 2);
     }
 
@@ -39,10 +39,12 @@ public class BouncingBallGame extends Game {
 
     @Override
     public void draw(Buffer buffer) {
-        bigBall.draw(buffer, Color.BLUE);
+        bigBall.draw(buffer, Color.RED);
         smallBall.draw(buffer, Color.GREEN);
 
         buffer.drawText("score : " + score, 10, 20, Color.white);
+        buffer.drawText("FPS : " + GameTime.getCurrentFps(), 10, 40, Color.white);
+        buffer.drawText(GameTime.getElapsedFormattedTime(), 10, 60, Color.white);
     }
 
 }
